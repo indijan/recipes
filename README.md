@@ -33,12 +33,11 @@ Nyisd meg: `http://localhost:3000`
 ```json
 {
   "success": true,
-  "sessionId": "abc123",
-  "url": "http://localhost:3000/recipe/abc123"
+  "url": "http://localhost:3000/recipe?data=eyJtZWFsVHlwZSI6InZhY3NvcmEiLC4uLn0"
 }
 ```
 
 ## Fontos demo megjegyzes
 
-- A session tarolas in-memory `Map`, ujrainditas utan torlodik.
-- Ez tudatosan demo celra keszult, adatbazis nelkul.
+- Nincs kulon session tarolas: az endpoint a validalt JSON-t base64url formatumban a linkbe kodolja.
+- A `/recipe` oldal a `data` query parameterbol dekodolja vissza a payloadot.

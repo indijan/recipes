@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { createSession } from "@/lib/session-store";
+import { encodeRecipeData } from "@/lib/recipe-data";
 import { validateRecipeSessionInput } from "@/lib/validation";
 
 const PUBLIC_APP_URL = "https://recipes-pi-liard.vercel.app";
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const sessionId = createSession(validated.data);
+  const encodedData = encodeRecipeData(validated.data);
   const forwardedProto = request.headers.get("x-forwarded-proto");
   const forwardedHost = request.headers.get("x-forwarded-host");
   const host = request.headers.get("host");
@@ -43,7 +43,6 @@ export async function POST(request: Request) {
 
   return NextResponse.json({
     success: true,
-    sessionId,
-    url: `${runtimeOrigin}/recipe/${sessionId}`,
+    url: `${runtimeOrigin}/recipe?data=${encodedData}`,
   });
 }

@@ -1,23 +1,22 @@
 import Link from "next/link";
 
 import { generateRecipeIdeas } from "@/lib/openai";
-import { getSession } from "@/lib/session-store";
+import { decodeRecipeData } from "@/lib/recipe-data";
 
 import styles from "./recipe.module.css";
 
 type RecipePageProps = {
-  params: Promise<{ id: string }>;
+  searchParams: Promise<{ data?: string }>;
 };
 
-export default async function RecipePage({ params }: RecipePageProps) {
-  const { id } = await params;
-  const session = getSession(id);
+export default async function RecipePage({ searchParams }: RecipePageProps) {
+  const { data } = await searchParams;
 
-  if (!session) {
+  if (!data) {
     return (
       <main className={styles.page}>
         <section className={styles.errorCard}>
-          <h1>Session nem talalhato</h1>
+          <h1>Hibas vagy hianyzo link</h1>
           <p>
             Ez a receptkeres mar nem elerheto vagy hibas linket kaptal.
           </p>
@@ -29,7 +28,26 @@ export default async function RecipePage({ params }: RecipePageProps) {
     );
   }
 
-  const aiResult = await generateRecipeIdeas(session);
+  const decoded = decodeRecipeData(data);
+
+  if (!decoded.valid || !decoded.data) {
+    return (
+      <main className={styles.page}>
+        <section className={styles.errorCard}>
+          <h1>Hibas vagy hianyzo link</h1>
+          <p>
+            Ez a receptkeres mar nem elerheto vagy hibas linket kaptal.
+          </p>
+          <Link href="/" className={styles.cta}>
+            Vissza a fooldalra
+          </Link>
+        </section>
+      </main>
+    );
+  }
+
+  const requestData = decoded.data;
+  const aiResult = await generateRecipeIdeas(requestData);
 
   return (
     <main className={styles.page}>
@@ -43,19 +61,19 @@ export default async function RecipePage({ params }: RecipePageProps) {
         <dl>
           <div>
             <dt>Etkezes celja</dt>
-            <dd>{session.mealType}</dd>
+            <dd>{requestData.mealType}</dd>
           </div>
           <div>
             <dt>Alapanyagok</dt>
-            <dd>{session.ingredients}</dd>
+            <dd>{requestData.ingredients}</dd>
           </div>
           <div>
             <dt>Allergiak</dt>
-            <dd>{session.allergies}</dd>
+            <dd>{requestData.allergies}</dd>
           </div>
           <div>
             <dt>Etrendi preferencia</dt>
-            <dd>{session.diet}</dd>
+            <dd>{requestData.diet}</dd>
           </div>
         </dl>
       </section>

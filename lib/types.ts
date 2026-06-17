@@ -5,7 +5,3 @@ export type RecipeSessionInput = {
   diet: string;
   source?: string;
 };
-
-export type StoredRecipeSession = RecipeSessionInput & {
-  createdAt: number;
-};

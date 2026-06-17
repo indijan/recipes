@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { encodeRecipeData } from "@/lib/recipe-data";
+
 import styles from "./home.module.css";
 
 export default function Home() {
@@ -11,6 +13,14 @@ export default function Home() {
   "source": "ios-shortcut-demo"
 }`;
 
+  const demoDataLink = `/recipe?data=${encodeRecipeData({
+    mealType: "vacsora",
+    ingredients: "tojas, sajt, paradicsom, rizs",
+    allergies: "mogyoro",
+    diet: "gyerekbarat",
+    source: "ios-shortcut-demo",
+  })}`;
+
   return (
     <main className={styles.page}>
       <section className={styles.heroCard}>
@@ -20,7 +30,7 @@ export default function Home() {
           Ez egy iPhone Shortcut + AI demo. A Shortcut bekeri az igenyeket, a
           webapp pedig szemelyre szabott receptotleteket general.
         </p>
-        <Link href="/recipe/demo" className={styles.linkButton}>
+        <Link href={demoDataLink} className={styles.linkButton}>
           Pelda oldal megnyitasa
         </Link>
       </section>
@@ -30,7 +40,7 @@ export default function Home() {
         <pre>{samplePayload}</pre>
         <p>
           Endpoint: <code>POST /api/recipe-session</code> - innen kapsz egy
-          session URL-t a prezentaciohoz.
+          URL-t, ami mar tartalmazza a kodolt input adatokat.
         </p>
       </section>
     </main>
