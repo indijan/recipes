@@ -14,9 +14,9 @@ const merriweather = Merriweather({
 });
 
 export const metadata: Metadata = {
-  title: "iPhone Shortcut + AI Recept Demo",
+  title: "iPhone Shortcut + AI Recipe Demo",
   description:
-    "A Shortcut JSON-t kuld, a webapp pedig szemelyre szabott receptotleteket general.",
+    "The Shortcut sends JSON and the web app generates personalized recipe ideas.",
 };
 
 const jetBrainsMono = JetBrains_Mono({
@@ -31,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="hu"
+      lang="en"
       className={`${manrope.variable} ${merriweather.variable} ${jetBrainsMono.variable}`}
     >
       <body>{children}</body>

@@ -16,12 +16,10 @@ export default async function RecipePage({ searchParams }: RecipePageProps) {
     return (
       <main className={styles.page}>
         <section className={styles.errorCard}>
-          <h1>Hibas vagy hianyzo link</h1>
-          <p>
-            Ez a receptkeres mar nem elerheto vagy hibas linket kaptal.
-          </p>
+          <h1>Invalid or missing link</h1>
+          <p>This recipe request is no longer available or the link is wrong.</p>
           <Link href="/" className={styles.cta}>
-            Vissza a fooldalra
+            Back to home
           </Link>
         </section>
       </main>
@@ -34,12 +32,10 @@ export default async function RecipePage({ searchParams }: RecipePageProps) {
     return (
       <main className={styles.page}>
         <section className={styles.errorCard}>
-          <h1>Hibas vagy hianyzo link</h1>
-          <p>
-            Ez a receptkeres mar nem elerheto vagy hibas linket kaptal.
-          </p>
+          <h1>Invalid or missing link</h1>
+          <p>This recipe request is no longer available or the link is wrong.</p>
           <Link href="/" className={styles.cta}>
-            Vissza a fooldalra
+            Back to home
           </Link>
         </section>
       </main>
@@ -53,39 +49,39 @@ export default async function RecipePage({ searchParams }: RecipePageProps) {
     <main className={styles.page}>
       <header className={styles.headerCard}>
         <span className={styles.badge}>Generated from iPhone Shortcut</span>
-        <h1>Szemelyre szabott receptotletek</h1>
+        <h1>Personalized recipe ideas</h1>
       </header>
 
       <section className={styles.summaryCard}>
-        <h2>Bekert adatok</h2>
+        <h2>Input summary</h2>
         <dl>
           <div>
-            <dt>Etkezes celja</dt>
+            <dt>Meal type</dt>
             <dd>{requestData.mealType}</dd>
           </div>
           <div>
-            <dt>Alapanyagok</dt>
+            <dt>Ingredients</dt>
             <dd>{requestData.ingredients}</dd>
           </div>
           <div>
-            <dt>Allergiak</dt>
+            <dt>Allergies</dt>
             <dd>{requestData.allergies}</dd>
           </div>
           <div>
-            <dt>Etrendi preferencia</dt>
+            <dt>Diet preference</dt>
             <dd>{requestData.diet}</dd>
           </div>
         </dl>
       </section>
 
       <section className={styles.aiCard}>
-        <h2>AI valasz</h2>
+        <h2>AI response</h2>
         <pre>{aiResult}</pre>
       </section>
 
       <footer>
         <Link href="/" className={styles.cta}>
-          Uj receptkeres inditasa
+          Start a new request
         </Link>
       </footer>
     </main>

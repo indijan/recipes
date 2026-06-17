@@ -5,7 +5,7 @@ export default function LoadingRecipePage() {
     <main className={styles.page}>
       <section className={styles.loadingCard}>
         <span className={styles.badge}>Generated from iPhone Shortcut</span>
-        <h1>A sef AI gondolkodik...</h1>
+        <h1>The AI chef is thinking...</h1>
       </section>
     </main>
   );

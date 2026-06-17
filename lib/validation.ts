@@ -37,7 +37,7 @@ export function validateRecipeSessionInput(body: unknown): {
     data: {
       mealType: parsed.mealType,
       ingredients: parsed.ingredients,
-      allergies: parsed.allergies || "nincs megadva",
+      allergies: parsed.allergies || "not specified",
       diet: parsed.diet,
       source: parsed.source || "unknown",
     },

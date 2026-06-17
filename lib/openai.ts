@@ -1,16 +1,40 @@
 import type { RecipeSessionInput } from "./types";
 
 const systemPrompt =
-  "Te egy kreativ, praktikus receptasszisztens vagy. A feladatod, hogy a megadott alapanyagok, etkezesi cel, allergiak es etrendi preferenciak alapjan adj 3 konnyen elkeszitheto receptotletet. Mindig vedd komolyan az allergiakat es kerulendo eteleket. Ne ajanlj olyan hozzavalot, ami allergias kockazatot jelent. A valasz legyen baratsagos, rovid, jol tagolt es prezentalhato.";
+  "You are a creative, practical recipe assistant. Based on the provided ingredients, meal goal, allergies, and diet preferences, suggest 3 easy-to-cook recipe ideas. Always treat allergies and excluded foods as strict constraints. Never suggest ingredients that may cause allergy risks. Keep the response friendly, concise, well-structured, and presentation-ready.";
+
+type ResponsesApiOutput = {
+  output_text?: string;
+  output?: Array<{
+    content?: Array<{
+      type?: string;
+      text?: string;
+    }>;
+  }>;
+};
+
+function extractTextFromResponse(data: ResponsesApiOutput) {
+  if (data.output_text && data.output_text.trim().length > 0) {
+    return data.output_text;
+  }
+
+  const contentTexts =
+    data.output
+      ?.flatMap((entry) => entry.content ?? [])
+      .filter((item) => item.type === "output_text" && Boolean(item.text))
+      .map((item) => item.text as string) ?? [];
+
+  return contentTexts.join("\n").trim();
+}
 
 export async function generateRecipeIdeas(input: RecipeSessionInput) {
   const apiKey = process.env.OPENAI_API_KEY;
 
   if (!apiKey) {
-    return "Az OPENAI_API_KEY nincs beallitva. Add meg a .env.local fajlban, hogy a demo teljesen mukodjon.";
+    return "OPENAI_API_KEY is missing. Add it in .env.local to enable recipe generation.";
   }
 
-  const userPrompt = `mealType: ${input.mealType}\ningredients: ${input.ingredients}\nallergies: ${input.allergies}\ndiet: ${input.diet}\n\nKert valaszformatum:\n# 3 gyors receptotlet\n\n## 1. Recept neve\nRovid leiras.\nHozzavalok.\nElkeszites 3-5 lepesben.\nMiert jo valasztas?\n\n## 2. Recept neve\n...\n\n## 3. Recept neve\n...\n\nVegen:\nTipp: ellenorizd az allergeneket a csomagolason is.`;
+  const userPrompt = `mealType: ${input.mealType}\ningredients: ${input.ingredients}\nallergies: ${input.allergies}\ndiet: ${input.diet}\n\nRequired response format:\n# 3 quick recipe ideas\n\n## 1. Recipe name\nShort description.\nIngredients.\nPreparation in 3-5 steps.\nWhy this is a good choice?\n\n## 2. Recipe name\n...\n\n## 3. Recipe name\n...\n\nEnd with:\nTip: double-check allergens on product labels too.`;
 
   const response = await fetch("https://api.openai.com/v1/responses", {
     method: "POST",
@@ -36,16 +60,15 @@ export async function generateRecipeIdeas(input: RecipeSessionInput) {
   });
 
   if (!response.ok) {
-    return "Nem sikerult receptotletet generalni most. Probald ujra rovidesen a presentation.";
+    return "Recipe generation failed right now. Please try again shortly.";
   }
 
-  const data = (await response.json()) as {
-    output_text?: string;
-  };
+  const data = (await response.json()) as ResponsesApiOutput;
+  const outputText = extractTextFromResponse(data);
 
-  if (!data.output_text) {
-    return "Az AI valasz ures lett, de a session adatok rendben beerkeztek.";
+  if (!outputText) {
+    return "The AI response was empty, but your request data arrived correctly.";
   }
 
-  return data.output_text;
+  return outputText;
 }
