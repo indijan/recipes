@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 import { createSession } from "@/lib/session-store";
 import { validateRecipeSessionInput } from "@/lib/validation";
 
+const PUBLIC_APP_URL = "https://recipes-pi-liard.vercel.app";
+
 export async function POST(request: Request) {
   let body: unknown;
 
@@ -28,11 +30,20 @@ export async function POST(request: Request) {
   }
 
   const sessionId = createSession(validated.data);
-  const origin = request.headers.get("origin") || "http://localhost:3000";
+  const forwardedProto = request.headers.get("x-forwarded-proto");
+  const forwardedHost = request.headers.get("x-forwarded-host");
+  const host = request.headers.get("host");
+
+  const runtimeOrigin =
+    forwardedProto && forwardedHost
+      ? `${forwardedProto}://${forwardedHost}`
+      : host
+        ? `https://${host}`
+        : PUBLIC_APP_URL;
 
   return NextResponse.json({
     success: true,
     sessionId,
-    url: `${origin}/recipe/${sessionId}`,
+    url: `${runtimeOrigin}/recipe/${sessionId}`,
   });
 }
