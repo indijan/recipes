@@ -1,0 +1,77 @@
+.page {
+  width: min(980px, 100% - 2rem);
+  margin: 2.5rem auto;
+  display: grid;
+  gap: 1.25rem;
+}
+
+.heroCard,
+.flowCard {
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  border-radius: 1.25rem;
+  box-shadow: 0 12px 30px rgba(26, 36, 49, 0.08);
+  padding: clamp(1.2rem, 2vw, 2rem);
+}
+
+.heroCard {
+  display: grid;
+  gap: 1rem;
+}
+
+.heroCard h1 {
+  font-family: var(--font-merriweather), serif;
+  font-size: clamp(1.9rem, 4vw, 3.2rem);
+  line-height: 1.15;
+  color: #17344f;
+}
+
+.heroCard p {
+  color: #325064;
+  max-width: 62ch;
+}
+
+.badge {
+  width: fit-content;
+  border-radius: 999px;
+  background: #ebf9ec;
+  color: #1b6c3d;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.3rem 0.8rem;
+}
+
+.linkButton {
+  width: fit-content;
+  border-radius: 0.9rem;
+  background: linear-gradient(140deg, #f08f3a, #f4a447);
+  color: #1d1003;
+  font-weight: 700;
+  padding: 0.8rem 1rem;
+}
+
+.flowCard h2 {
+  color: #17344f;
+  margin-bottom: 0.7rem;
+}
+
+.flowCard pre {
+  border-radius: 1rem;
+  border: 1px solid #d4deea;
+  background: #f4f8fc;
+  padding: 1rem;
+  font-family: var(--font-code), monospace;
+  overflow-x: auto;
+  color: #22384d;
+}
+
+.flowCard p {
+  margin-top: 0.8rem;
+  color: #325064;
+}
+
+@media (max-width: 700px) {
+  .page {
+    margin: 1.2rem auto 2rem;
+  }
+}

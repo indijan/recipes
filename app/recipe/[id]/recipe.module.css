@@ -1,0 +1,91 @@
+.page {
+  width: min(960px, 100% - 2rem);
+  margin: 2rem auto 3rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.headerCard,
+.summaryCard,
+.aiCard,
+.errorCard,
+.loadingCard {
+  border-radius: 1.2rem;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  box-shadow: 0 14px 30px rgba(21, 38, 56, 0.08);
+  padding: clamp(1rem, 2vw, 1.8rem);
+}
+
+.headerCard h1,
+.errorCard h1,
+.loadingCard h1 {
+  margin-top: 0.75rem;
+  color: #17344f;
+  font-family: var(--font-merriweather), serif;
+  font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+}
+
+.badge {
+  display: inline-block;
+  border-radius: 999px;
+  background: #eef5ff;
+  color: #2a4f80;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.3rem 0.8rem;
+}
+
+.summaryCard h2,
+.aiCard h2 {
+  margin-bottom: 0.75rem;
+  color: #17344f;
+}
+
+.summaryCard dl {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.summaryCard div {
+  padding: 0.75rem;
+  border-radius: 0.8rem;
+  background: #f4f8fc;
+}
+
+.summaryCard dt {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  color: #4c667e;
+  margin-bottom: 0.3rem;
+}
+
+.summaryCard dd {
+  color: #1f3346;
+}
+
+.aiCard pre {
+  border-radius: 0.9rem;
+  border: 1px solid #d4deea;
+  background: #fdfefe;
+  padding: 1rem;
+  white-space: pre-wrap;
+  line-height: 1.6;
+  color: #203447;
+  font-family: var(--font-manrope), sans-serif;
+}
+
+.errorCard p {
+  color: #325064;
+  margin-top: 0.5rem;
+}
+
+.cta {
+  display: inline-block;
+  border-radius: 0.9rem;
+  margin-top: 0.9rem;
+  background: linear-gradient(140deg, #f08f3a, #f4a447);
+  color: #1d1003;
+  font-weight: 700;
+  padding: 0.75rem 1rem;
+}
